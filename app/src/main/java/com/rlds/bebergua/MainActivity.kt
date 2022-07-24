@@ -1,10 +1,14 @@
 package com.rlds.bebergua
 
+import android.app.TimePickerDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.AlarmClock
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import model.CalcularIngestaoDiaria
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var edit_peso:EditText
@@ -14,6 +18,14 @@ class MainActivity : AppCompatActivity() {
     private  lateinit var ic_redefinirDados: ImageView
     private  lateinit var  calcularIngestaoDiaria:CalcularIngestaoDiaria
     private  var resultadoMl = 0.0
+    private  lateinit var  bt_lembrete: Button
+    private  lateinit var  bt_alarme:Button
+    private  lateinit var  txt_hora:TextView
+    private  lateinit var  txt_minutos:TextView
+    lateinit var  timePickerDialog: TimePickerDialog
+    lateinit var calendario:Calendar
+    var horaAtual = 0
+    var minutosAtuais = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +74,35 @@ class MainActivity : AppCompatActivity() {
             val dialog = alertDialog.create()
             dialog.show()
         }
+        // botao alarme
+        bt_alarme.setOnClickListener {
+            if(!txt_hora.text.toString().isEmpty() && !txt_minutos.text.toString().isEmpty()){
+                val intent = Intent(AlarmClock.ACTION_SET_ALARM)
+                intent.putExtra(AlarmClock.EXTRA_HOUR, txt_hora.text.toString().toInt())
+                intent.putExtra(AlarmClock.EXTRA_MINUTES, txt_minutos.text.toString().toInt())
+                intent.putExtra(AlarmClock.EXTRA_MESSAGE,getString(R.string.mensagem_alerta))
+                startActivity(intent)
+                if (intent.resolveActivity(packageManager)!= null){
+                    startActivity(intent)
+                }
+            }
+
+        }
+
+        // butao lembrete
+        bt_lembrete.setOnClickListener {
+            calendario = Calendar.getInstance()
+            horaAtual = calendario.get(Calendar.HOUR_OF_DAY)
+            minutosAtuais = calendario.get(Calendar.MINUTE)
+            timePickerDialog = TimePickerDialog(this,
+                {timePicker:TimePicker,hourOfDay:Int, minutes:Int ->
+                    txt_hora.text = String.format("%02d",hourOfDay)
+                    txt_minutos.text = String.format("%02d", minutes)
+                },horaAtual, minutosAtuais,true)
+            timePickerDialog.show()
+        }
+
+
     }
     private  fun inicializarComponentes(){
         edit_peso = findViewById(R.id.edit_peso)
@@ -69,5 +110,10 @@ class MainActivity : AppCompatActivity() {
         bt_calcular = findViewById(R.id.btnCalcular)
         txt_resultado = findViewById(R.id.txt_resultado_ml)
         ic_redefinirDados = findViewById(R.id.ic_redefinir)
+        bt_lembrete = findViewById(R.id.btn_definir_lembrete)
+        bt_alarme = findViewById(R.id.btn_alarme)
+        txt_hora = findViewById(R.id.txt_hora)
+        txt_minutos = findViewById(R.id.txt_minutos)
+
     }
 }

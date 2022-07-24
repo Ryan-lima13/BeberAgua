@@ -12,4 +12,5 @@
     <string name="toast_informe_idade">Informe sua Idade! </string>
     <string name="redefinir_dados">Redefinir Dados </string>
     <string name="mensagem">Deseja excluir todos os dados exitentes? </string>
+    <string name="mensagem_alerta">Hora de Beber àgua!</string>
 </resources>
