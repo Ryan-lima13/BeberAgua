@@ -8,4 +8,8 @@
     <string name="hora">00 </string>
     <string name="dois_ponto">: </string>
     <string name="minutos">00 </string>
+    <string name="toast_informe_peso">Informe seu Peso! </string>
+    <string name="toast_informe_idade">Informe sua Idade! </string>
+    <string name="redefinir_dados">Redefinir Dados </string>
+    <string name="mensagem">Deseja excluir todos os dados exitentes? </string>
 </resources>
